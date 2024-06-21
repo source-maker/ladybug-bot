@@ -1,0 +1,7 @@
+name: "ladybug linter"
+description: "Lint your PR with Ladybug"
+author: "Ladybug Team"
+
+runs:
+  using: "node16"
+  main: "dist/index.js"
