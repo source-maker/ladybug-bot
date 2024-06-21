@@ -7,6 +7,10 @@ inputs:
     description: "GitHub token"
     required: true
 
+  name:
+    description: "Name of the action"
+    required: true
+
   label:
     description: "Label to add to PR"
     required: true
