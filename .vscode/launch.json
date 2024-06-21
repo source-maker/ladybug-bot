@@ -1,0 +1,20 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        // pressing F5 will run the debugger with the following configuration
+        {
+            "name": "ts-node",
+            "type": "node",
+            "request": "launch",
+            "args": ["./src/index.ts"],
+            "runtimeArgs": ["-r", "ts-node/register"],
+            "cwd": "${workspaceRoot}",
+            "internalConsoleOptions": "openOnSessionStart",
+            "env": {
+                "INPUT_GH-TOKEN": "secret-1234",
+                "INPUT_LABEL": "needs-review",
+                "INPUT_NAME": "Ladybug",
+            }
+        }
+    ]
+}
