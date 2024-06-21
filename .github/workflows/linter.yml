@@ -1,4 +1,4 @@
-name: "hello"
+name: "ladybug linter"
 
 on:
   workflow_dispatch:
@@ -6,7 +6,7 @@ on:
     types: [opened, reopened]
 
 jobs:
-  hello: # job_id
+  linter: # job_id
     runs-on: ubuntu-latest
 
     steps:

@@ -1,7 +1,7 @@
 import { getInput, setFailed } from "@actions/core"
 import { context, getOctokit } from "@actions/github"
 
-async function run() {
+export async function run() {
     const name = getInput("name")
     const token = getInput("gh-token")
     const label = getInput("label")
@@ -25,4 +25,6 @@ async function run() {
     }
 }
 
-run();
+if (!process.env.JEST_WORKER_ID){
+    run();
+}
