@@ -2,6 +2,15 @@ name: "ladybug linter"
 description: "Lint your PR with Ladybug"
 author: "Ladybug Team"
 
+inputs:
+  gh-token:
+    description: "GitHub token"
+    required: true
+
+  label:
+    description: "Label to add to PR"
+    required: true
+
 runs:
   using: "node16"
   main: "dist/index.js"
