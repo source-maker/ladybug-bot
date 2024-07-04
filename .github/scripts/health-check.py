@@ -30,14 +30,27 @@ if num_lines_changed > 1000 or num_commits > 10 or num_files_changed > 10:
 if num_lines_changed > 2000 or num_commits > 20 or num_files_changed > 20:
     health_status = 'red'
 
-# Output the result
-print(f'Number of lines changed: {num_lines_changed}')
-print(f'Number of commits: {num_commits}')
-print(f'Number of files changed: {num_files_changed}')
-print(f'Health Status: {health_status}')
 
-# Set the health status as an output for use in other steps
-print(f'::set-output name=health-status::{health_status}')
+# Create a comment body
+comment_body = f"""
+### PR Health Check Results
+- Number of lines changed: {num_lines_changed}
+- Number of commits: {num_commits}
+- Number of files changed: {num_files_changed}
+
+**Health Status: {health_status}**
+"""
+
+# Post the comment to the pull request
+comment_url = f'https://api.github.com/repos/{repo}/issues/{pr_number}/comments'
+comment_data = {
+    'body': comment_body
+}
+response = requests.post(comment_url, headers=headers, data=json.dumps(comment_data))
+
+if response.status_code != 201:
+    print(f'Failed to create comment: {response.status_code}')
+    print(response.json())
 
 # Exit with an appropriate status code
 if health_status == 'red':
