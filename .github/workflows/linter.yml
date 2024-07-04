@@ -18,9 +18,9 @@ jobs:
           python-version: '3.9'
 
       - name: Install dependencies
-            run: |
-            curl https://raw.githubusercontent.com/pypa/pipenv/master/get-pipenv.py | python
-            pipenv sync --dev
+        run: |
+          curl https://raw.githubusercontent.com/pypa/pipenv/master/get-pipenv.py | python
+          pipenv sync --dev
 
       - name: Run health check script
         run: pipenv run linter
