@@ -9,11 +9,6 @@ fo
 code
 yes
 ///
-this
-is
-going
-to
-be
 500
 lines
 fo
