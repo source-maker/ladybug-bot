@@ -25,10 +25,13 @@ num_lines_changed = additions + deletions
 
 # Determine health status
 health_status = 'green'
+color = "brightgreen"
 if num_lines_changed > 500 or num_commits > 5 or num_files_changed > 5:
     health_status = 'yellow'
+    color = "yellow"
 if num_lines_changed > 1000 or num_commits > 10 or num_files_changed > 10:
     health_status = 'red'
+    color = "red"
 
 
 # Create a comment body
@@ -38,7 +41,7 @@ comment_body = f"""
 - Number of commits: {num_commits}
 - Number of files changed: {num_files_changed}
 
-**Health Status: {health_status}**
+**Health Status: ![{health_status}](https://img.shields.io/badge/status-{health_status}-{color})**
 """
 
 # Post the comment to the pull request
