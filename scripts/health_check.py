@@ -1,6 +1,7 @@
 import os
 import requests
 import json
+import textwrap
 
 
 def get_pr_details(repo, pr_number, token):
@@ -64,14 +65,14 @@ def main():
         num_lines_changed, num_commits, num_files_changed
     )
 
-    comment_body = f"""
+    comment_body = textwrap.dedent(f"""
     ### PR Health Check Results
     - Number of lines changed: {num_lines_changed}
     - Number of commits: {num_commits}
     - Number of files changed: {num_files_changed}
 
     **Health Status: ![{health_status}](https://img.shields.io/badge/status-{health_status}-{color})**
-    """
+    """).strip()
 
     if (
         not create_or_update_comment(repo, pr_number, token, comment_body)
