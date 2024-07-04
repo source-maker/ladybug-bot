@@ -25,9 +25,9 @@ num_lines_changed = additions + deletions
 
 # Determine health status
 health_status = 'green'
-if num_lines_changed > 1000 or num_commits > 10 or num_files_changed > 10:
+if num_lines_changed > 500 or num_commits > 5 or num_files_changed > 5:
     health_status = 'yellow'
-if num_lines_changed > 2000 or num_commits > 20 or num_files_changed > 20:
+if num_lines_changed > 1000 or num_commits > 10 or num_files_changed > 10:
     health_status = 'red'
 
 
