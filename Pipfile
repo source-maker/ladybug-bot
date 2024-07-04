@@ -4,9 +4,14 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 
 [dev-packages]
-requests = "*"
+pytest = "*"
 
 [packages]
+requests = "*"
 
 [requires]
 python_version = "3.9"
+
+[scripts]
+linter = "python scripts/health_check.py"
+test = "pytest tests"

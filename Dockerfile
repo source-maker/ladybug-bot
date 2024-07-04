@@ -1,5 +1,8 @@
 FROM python:3.9
 
+# 明示しておく
+ENTRYPOINT ["/bin/bash", "-c"]
+
 # Install pipenv
 RUN pip install pipenv
 
@@ -7,10 +10,10 @@ RUN pip install pipenv
 WORKDIR /workspace
 
 # Copy the Pipfile and Pipfile.lock to the container
-COPY Pipfile Pipfile.lock /workspace/
+ADD . /workspace
 
 # Install dependencies
-RUN pipenv install --dev
+RUN pipenv install --system --dev
 
 # Keep the container running
 CMD ["tail", "-f", "/dev/null"]

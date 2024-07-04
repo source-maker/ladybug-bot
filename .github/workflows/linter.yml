@@ -10,17 +10,19 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Set up Python
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v4
         with:
-          python-version: '3.8'
+          python-version: '3.9'
 
       - name: Install dependencies
-        run: pip install requests
+            run: |
+            curl https://raw.githubusercontent.com/pypa/pipenv/master/get-pipenv.py | python
+            pipenv sync --dev
 
       - name: Run health check script
-        run: python .github/scripts/health-check.py
+        run: pipenv run linter
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
