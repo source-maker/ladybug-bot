@@ -44,16 +44,32 @@ comment_body = f"""
 **Health Status: ![{health_status}](https://img.shields.io/badge/status-{health_status}-{color})**
 """
 
-# Post the comment to the pull request
-comment_url = f'https://api.github.com/repos/{repo}/issues/{pr_number}/comments'
-comment_data = {
-    'body': comment_body
-}
-response = requests.post(comment_url, headers=headers, data=json.dumps(comment_data))
+# Fetch existing comments to find if the bot has already commented
+comments_url = f'https://api.github.com/repos/{repo}/issues/{pr_number}/comments'
+response = requests.get(comments_url, headers=headers)
+comments = response.json()
 
-if response.status_code != 201:
-    print(f'Failed to create comment: {response.status_code}')
-    print(response.json())
+# Look for an existing comment by the bot
+bot_comment_id = None
+for comment in comments:
+    if '### PR Health Check Results' in comment['body']:
+        bot_comment_id = comment['id']
+        break
+
+if bot_comment_id:
+    # Update the existing comment
+    update_url = f'https://api.github.com/repos/{repo}/issues/comments/{bot_comment_id}'
+    response = requests.patch(update_url, headers=headers, data=json.dumps({'body': comment_body}))
+    if response.status_code != 200:
+        print(f'Failed to update comment: {response.status_code}')
+        print(response.json())
+else:
+    # Create a new comment
+    response = requests.post(comments_url, headers=headers, data=json.dumps({'body': comment_body}))
+    if response.status_code != 201:
+        print(f'Failed to create comment: {response.status_code}')
+        print(response.json())
+
 
 # Exit with an appropriate status code
 if health_status == 'red':
