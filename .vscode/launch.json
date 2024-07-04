@@ -1,20 +1,17 @@
 {
     "version": "0.2.0",
     "configurations": [
-        // pressing F5 will run the debugger with the following configuration
         {
-            "name": "ts-node",
-            "type": "node",
+            "name": "Python: Test PR Health Check",
+            "type": "debugpy",
             "request": "launch",
-            "args": ["./src/index.ts"],
-            "runtimeArgs": ["-r", "ts-node/register"],
-            "cwd": "${workspaceRoot}",
-            "internalConsoleOptions": "openOnSessionStart",
+            "program": "${workspaceFolder}/.github/scripts/health-check.py",
             "env": {
-                "INPUT_GH-TOKEN": "secret-1234",
-                "INPUT_LABEL": "needs-review",
-                "INPUT_NAME": "Ladybug",
-            }
+                "GITHUB_TOKEN": "your_github_token_here",
+                "GITHUB_EVENT_PATH": "${workspaceFolder}/.vscode/pull_request_event.json",
+                "GITHUB_REPOSITORY": "your_username/your_repository"
+            },
+            "console": "integratedTerminal",
         }
     ]
 }
