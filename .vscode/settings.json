@@ -1,0 +1,27 @@
+{
+    "debug.allowBreakpointsEverywhere": true,
+    "terminal.integrated.scrollback": 5000,
+    "editor.formatOnSave": true,
+    "python.defaultInterpreterPath": "/usr/bin/python",
+    "files.trimFinalNewlines": true,
+    "files.trimTrailingWhitespace": true,
+    // それぞれの言語での自動整形のために設定
+    // onsaveのたびに走るように設定
+    "[python]": {
+        "editor.defaultFormatter": "ms-python.black-formatter",
+        "editor.formatOnSave": true,
+        // 以下isort有効化設定
+        "editor.codeActionsOnSave": {
+            "source.organizeImports": "explicit"
+        },
+    },
+    "isort.args": [
+        "--profile",
+        "black"
+    ],
+    "black-formatter.args": [
+        "--line-length",
+        "100"
+    ],
+    "remote.autoForwardPortsFallback": 0
+}
