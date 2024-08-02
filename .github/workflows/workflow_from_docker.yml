@@ -1,16 +1,18 @@
 on:
+  pull_request:
   workflow_dispatch:
-
-permissions:
-  issues: write
-  pull-requests: write
 
 jobs:
   github_actions_sample:
-    runs-on: ubuntu-latest
-    name: Run health check on every pull request
-    steps:
-      - uses: actions/checkout@v2
+      runs-on: ubuntu-latest
+      permissions:
+        issues: write
+        pull-requests: write
+        contents: write
+      name: Run health check on every pull request
+      steps:
+      - name: Checkout
+        uses: actions/checkout@v2
 
       - name: Run github action using docker
         id: pr_health_check
