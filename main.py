@@ -47,12 +47,6 @@ def create_or_update_comment(repo, pr_number, token, comment_body):
 
 
 def main():
-    res = requests.post(
-        "http://localhost:8051/api/login_api/",
-        data={"username": "DaisukeMiyazaki-ladybug", "password": "hogehoge"},
-    )
-    print(res.json())
-
     with open(os.getenv("GITHUB_EVENT_PATH")) as f:
         event = json.load(f)
         pr_number = event["pull_request"]["number"]
@@ -82,7 +76,6 @@ def main():
     """
     ).strip()
 
-    # get request to ladybug server at localhost:8051/api/ladybug_users/
 
     if (
         not create_or_update_comment(repo, pr_number, token, comment_body)
