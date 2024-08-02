@@ -68,11 +68,25 @@ async def main():
     try:
         with open(GITHUB_EVENT_PATH, 'r') as f:
             event = json.load(f)
-            pr_number = event["pull_request"]["number"]
-            repo = event["repository"]["full_name"]
     except json.decoder.JSONDecodeError as e:
         print(f"Failed to parse JSON: {e}")
         return
+
+    if GITHUB_EVENT_NAME != "pull_request":
+        print(f"Unsupported event type: {GITHUB_EVENT_NAME}")
+        return
+
+    print("Event payload:" + json.dumps(event, indent=2))
+    pr = event.get("pull_request", {})
+    pr_number = pr.get("number", None)
+    repo = event["repository"]["full_name"]
+
+
+    action = event.get("action")
+    if action in ["opened", "reopened", "ready_for_review", "review_requested"]:
+        pr_url = event.get("pull_request", {}).get("url")
+        pr_details = requests.get(pr_url).json()
+        print("PR details:" + json.dumps(pr_details, indent=2))
 
 
     token = os.getenv("GITHUB_TOKEN")
