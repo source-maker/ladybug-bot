@@ -1,0 +1,12 @@
+on: [push, workflow_dispatch]
+
+jobs:
+  github_actions_sample:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Run github action using docker
+        uses: ./
+        with:
+          REPOSITORY: ${{ github.repository }}
