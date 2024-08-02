@@ -1,3 +1,4 @@
+import asyncio
 import os
 import requests
 import json
@@ -46,11 +47,33 @@ def create_or_update_comment(repo, pr_number, token, comment_body):
         return response.status_code == 201
 
 
-def main():
-    with open(os.getenv("GITHUB_EVENT_PATH")) as f:
-        event = json.load(f)
-        pr_number = event["pull_request"]["number"]
-        repo = event["repository"]["full_name"]
+async def main():
+    GITHUB_EVENT_NAME = os.environ.get('GITHUB_EVENT_NAME')
+    GITHUB_EVENT_PATH = os.environ.get('GITHUB_EVENT_PATH')
+    GITHUB_TOKEN = os.environ.get('GITHUB_TOKEN')
+
+    # Check if required environment variables are set
+    if not GITHUB_EVENT_NAME:
+        print("GITHUB_EVENT_NAME not set")
+        return
+    if not GITHUB_EVENT_PATH:
+        print("GITHUB_EVENT_PATH not set")
+        return
+    if not GITHUB_TOKEN:
+        print("GITHUB_TOKEN not set")
+        return
+
+
+    # Load the event payload
+    try:
+        with open(GITHUB_EVENT_PATH, 'r') as f:
+            event = json.load(f)
+            pr_number = event["pull_request"]["number"]
+            repo = event["repository"]["full_name"]
+    except json.decoder.JSONDecodeError as e:
+        print(f"Failed to parse JSON: {e}")
+        return
+
 
     token = os.getenv("GITHUB_TOKEN")
 
@@ -85,4 +108,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    asyncio.run(main())

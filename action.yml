@@ -1,10 +1,5 @@
 name: 'PR Health Check'
 description: 'Check if the PR is healthy'
-inputs:
-  REPOSITORY:
-    description: github repository name
-    required: true
-    default: ${{ github.repository }}
 runs:
   using: 'docker'
   image: 'Dockerfile'

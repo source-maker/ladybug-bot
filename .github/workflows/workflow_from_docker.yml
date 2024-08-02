@@ -1,12 +1,19 @@
-on: [workflow_dispatch]
+on:
+  workflow_dispatch:
+
+permissions:
+  issues: write
+  pull-requests: write
 
 jobs:
   github_actions_sample:
     runs-on: ubuntu-latest
+    name: Run health check on every pull request
     steps:
       - uses: actions/checkout@v2
 
       - name: Run github action using docker
-        uses: ./
-        with:
+        id: pr_health_check
+        uses: source-maker/ladybug-bot@main
+        env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
