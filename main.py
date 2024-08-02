@@ -47,6 +47,12 @@ def create_or_update_comment(repo, pr_number, token, comment_body):
 
 
 def main():
+    res = requests.post(
+        "http://localhost:8051/api/login_api/",
+        data={"username": "DaisukeMiyazaki-ladybug", "password": "hogehoge"},
+    )
+    print(res.json())
+
     with open(os.getenv("GITHUB_EVENT_PATH")) as f:
         event = json.load(f)
         pr_number = event["pull_request"]["number"]
@@ -65,14 +71,18 @@ def main():
         num_lines_changed, num_commits, num_files_changed
     )
 
-    comment_body = textwrap.dedent(f"""
+    comment_body = textwrap.dedent(
+        f"""
     ### PR Health Check Results
     - Number of lines changed: {num_lines_changed}
     - Number of commits: {num_commits}
     - Number of files changed: {num_files_changed}
 
     **Health Status: ![{health_status}](https://img.shields.io/badge/status-{health_status}-{color})**
-    """).strip()
+    """
+    ).strip()
+
+    # get request to ladybug server at localhost:8051/api/ladybug_users/
 
     if (
         not create_or_update_comment(repo, pr_number, token, comment_body)
